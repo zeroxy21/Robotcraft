@@ -26,14 +26,6 @@ float r = 1.6;
 float b = 10.6;
 int gear_box=298;
 float C = 0.00241;
-// PID coefficients
-
-float Kp=0;
-float Ki=0;
-float Kd=0;
-
-
-
 
 
 Encoder enc_left(ENC_M2L_A,ENC_M2L_B);
@@ -46,46 +38,6 @@ long enc_left_count=0;
 long enc_right_count=0;
 float DL=0;
 float DR=0;
-//IR fucntions start
-float sensF(){
-    float sum=0.0;
-    for(int i=0;i<1000;i++){
-      float sens=analogRead(IR_FRONT);
-      sum=sum+sens;
-    }
-    float res=sum/1000.0;
-    res=49.7-0.134*res+0.000104*res*res;
-    Serial.println(res);
-   return res;
-}
-float sensL(){
-   float sum=0.0;
-    for(int i=0;i<1000;i++){
-      float sens=analogRead(IR_LEFT);
-      sum=sum+sens;
-    }
-    float res=sum/1000.0;
-    res=46.9-0.132*res+0.000106*res*res;
-    Serial.println(res);
-   return res;
-}
-float sensR(){
-  float sum=0.0;
-    for(int i=0;i<1000;i++){
-      float sens=analogRead(IR_RIGHT);
-      sum=sum+sens;
-    }
-    float res=sum/1000.0;
-    res=51.9-0.144*res+0.000114*res*res;
-    Serial.println(res);
-   return res;
-}
-
-// IR functions end
-
-
-
-
 void setup() {
   Serial.begin(9600);
   Timer1.initialize(100);         // 10Hz = 100 ms
@@ -123,3 +75,4 @@ void callback() {
   DR= DR+C*count_right;
   flag = true;  
 }
+

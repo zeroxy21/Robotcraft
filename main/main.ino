@@ -26,14 +26,6 @@ float r = 1.6;
 float b = 10.6;
 int gear_box=298;
 float C = 0.00241;
-// PID coefficients
-
-float Kp=0;
-float Ki=0;
-float Kd=0;
-
-
-
 
 
 Encoder enc_left(ENC_M2L_A,ENC_M2L_B);
