@@ -41,6 +41,8 @@ void loop() {
     previousError = error;
     lastEncoderCount = encoderCount;
     lastTime = currentTime;
+    }
+  
 
 }
 void encFunc(){
