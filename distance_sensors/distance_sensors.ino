@@ -26,11 +26,18 @@ float sensF(){
       sum=sum+sens;
     }
     float res=sum/1000.0;
+    res=49.7-0.134*res+0.000104*res*res;
     Serial.println(res);
    return res;
 }
 float sensL(){
-   float res=analogRead(IR_LEFT);
+   float sum=0.0;
+    for(int i=0;i<1000;i++){
+      float sens=analogRead(IR_LEFT);
+      sum=sum+sens;
+    }
+    float res=sum/1000.0;
+    res=46.9-0.132*res+0.000106*res*res;
     Serial.println(res);
    return res;
 }
@@ -41,6 +48,7 @@ float sensR(){
       sum=sum+sens;
     }
     float res=sum/1000.0;
+    res=51.9-0.144*res+0.000114*res*res;
     Serial.println(res);
    return res;
 }
@@ -50,8 +58,8 @@ void setup() {
 }
 
 void loop() {
-    sensR();
-    delay(2000);
+    sensL();
+    delay(1500);
   // put your main code here, to run repeatedly:
 
 }
