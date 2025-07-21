@@ -1,4 +1,4 @@
-#include "math.h"
+#include <math.h>
 
 // Motor pins
 #define M1R_DIR 5    // RIGHT motor direction
@@ -13,9 +13,9 @@
 #define ENC_M2L_B 2   // LEFT encoder channel B
 
 // Robot parameters
-const int r = 50;     // Wheel radius (mm)
-const int b = 200;    // Wheelbase (mm)
-const int C = 100;    // Encoder resolution (ticks/rev)
+const float r = 50.0f;     // Wheel radius (mm)
+const float b = 200.0f;    // Wheelbase (mm)
+const int C = 100;         // Encoder resolution (ticks/rev)
 
 // Global variables
 volatile long encoderLeftCount = 0;
@@ -24,12 +24,13 @@ long lastLeftCount = 0;
 long lastRightCount = 0;
 unsigned long lastTime = 0;
 
-double x = 0, y = 0, teta = 0;
+float x = 0.0f, y = 0.0f, theta = 0.0f;
+float targetLeft = 0.0f, targetRight = 0.0f;  // Moved from loop() to global scope
 
 // PID variables
-float Kp = 0.5, Ki = 0, Kd = 0;
-float previousErrorLeft = 0, previousErrorRight = 0;
-float integralLeft = 0, integralRight = 0;
+float Kp = 6.8755f, Ki = 5.5004f, Kd = 1.4921f;
+float previousErrorLeft = 0.0f, previousErrorRight = 0.0f;
+float integralLeft = 0.0f, integralRight = 0.0f;
 
 void setup() {
   Serial.begin(115200);
@@ -40,43 +41,38 @@ void setup() {
   pinMode(M2L_DIR, OUTPUT);
   pinMode(M2L_PWM, OUTPUT);
   
-  // Encoder setup
-  pinMode(ENC_M2L_A, INPUT);
-  pinMode(ENC_M2L_B, INPUT);
-  pinMode(ENC_M1R_A, INPUT);
-  pinMode(ENC_M1R_B, INPUT);
+  // Encoder setup - enable pullup resistors
+  pinMode(ENC_M2L_A, INPUT_PULLUP);
+  pinMode(ENC_M2L_B, INPUT_PULLUP);
+  pinMode(ENC_M1R_A, INPUT_PULLUP);
+  pinMode(ENC_M1R_B, INPUT_PULLUP);
   
   attachInterrupt(digitalPinToInterrupt(ENC_M2L_A), leftEncoder, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ENC_M1R_A), rightEncoder, CHANGE);
-  
-  lastTime = millis();
 }
 
 void loop() {
   // Handle velocity commands
-  if (Serial.available() > 0) {
-    double V, W;
-    cmd_vel(&V, &W);
+  //if (Serial.available() > 0) {
+    float V=200, W=15;
+    //cmd_vel(&V, &W);
     
-    double wl, wr;
+    float wl, wr;
     cmd_vel2wheels(V, W, &wl, &wr);
     
-    // Convert angular velocities to encoder targets
-    float desiredLeftSpeed = (wl * C) / (2 * M_PI);
-    float desiredRightSpeed = (wr * C) / (2 * M_PI);
-    
-    // Store targets for PID control
-    static float targetLeft = 0, targetRight = 0;
-    targetLeft = desiredLeftSpeed;
-    targetRight = desiredRightSpeed;
-  }
+    // Convert angular velocities to encoder targets (ticks per 100ms)
+    targetLeft = (wl * C) / (2.0f * M_PI)* 10.0f;
+    targetRight = (wr * C) / (2.0f * M_PI)* 10.0f;
+ // }
 
   // PID control at fixed interval
   unsigned long currentTime = millis();
-  if (currentTime - lastTime >= 100) {  // 100ms sampling
-    // Calculate actual speeds
-    float leftSpeed = encoderLeftCount - lastLeftCount;
-    float rightSpeed = encoderRightCount - lastRightCount;
+  if (currentTime - lastTime >= 50) {  // 100ms sampling
+    float deltaT = (currentTime - lastTime) / 1000.0f;  // Convert to seconds
+    
+    // Calculate actual speeds (ticks per sample period)
+    float leftSpeed = (encoderLeftCount - lastLeftCount)* 10.0f ;
+    float rightSpeed = (encoderRightCount - lastRightCount)* 10.0f ;
     
     // Reset counters
     lastLeftCount = encoderLeftCount;
@@ -84,43 +80,46 @@ void loop() {
     lastTime = currentTime;
     
     // Update odometry
-    int NL = leftSpeed;
-    int NR = rightSpeed;
-    double x1, y1, teta1, V, W;
-    poseUpdate1(NL, NR, r, b, C, &x1, &y1, &teta1, &V, &W);
+    int NL = leftSpeed * deltaT;  // Convert back to ticks for this period
+    int NR = rightSpeed * deltaT;
+    float x1, y1, theta1, V, W;
+    poseUpdate1(NL, NR, r, b, C, &x1, &y1, &theta1, &V, &W);
     
     x += x1;
     y += y1;
-    teta += teta1;
+    theta += theta1;
     
     // PID control (using targets from cmd_vel)
     float leftOutput = pid_controller(targetLeft, leftSpeed, &integralLeft, &previousErrorLeft);
     float rightOutput = pid_controller(targetRight, rightSpeed, &integralRight, &previousErrorRight);
     
     // Motor control with direction
-    digitalWrite(M2L_DIR, (targetLeft < 0) ? HIGH : LOW);
+    digitalWrite(M2L_DIR, (leftOutput < 0) ? HIGH : LOW);
     analogWrite(M2L_PWM, constrain(abs(leftOutput), 0, 255));
     
-    digitalWrite(M1R_DIR, (targetRight < 0) ? HIGH : LOW);
+    digitalWrite(M1R_DIR, (rightOutput < 0) ? HIGH : LOW);
     analogWrite(M1R_PWM, constrain(abs(rightOutput), 0, 255));
     
     // Debug output
-    Serial.print("Pos:(");
-    Serial.print(x);
-    Serial.print(",");
-    Serial.print(y);
-    Serial.print(") Theta:");
-    Serial.print(teta);
-    Serial.print(" L:");
-    Serial.print(leftSpeed);
-    Serial.print(" R:");
-    Serial.println(rightSpeed);
+    // POUR VOIR L4ERREUR persistante 
+    Serial.print("ErrL:"); Serial.print(targetLeft - leftSpeed);
+    Serial.print(" ErrR:"); Serial.println(targetRight - rightSpeed);
+    //Serial.print("Pos:(");
+    //Serial.print(x);
+   // Serial.print(",");
+    //Serial.print(y);
+    //Serial.print(") Theta:");
+    //Serial.print(theta);
+    //Serial.print(" L:");
+    //Serial.print(leftSpeed);
+   // Serial.print(" R:");
+    //Serial.println(rightSpeed);
   }
 }
 
 // Encoder interrupts
 void leftEncoder() {
-  if (digitalRead(ENC_M2L_B)) {
+  if (digitalRead(ENC_M2L_A) == digitalRead(ENC_M2L_B)) {
     encoderLeftCount--;
   } else {
     encoderLeftCount++;
@@ -128,30 +127,29 @@ void leftEncoder() {
 }
 
 void rightEncoder() {
-  if (digitalRead(ENC_M1R_B)) {
+  if (digitalRead(ENC_M1R_A) == digitalRead(ENC_M1R_B)) {
     encoderRightCount--;
   } else {
     encoderRightCount++;
   }
 }
 
-// PID controller (your original function)
+// PID controller
 float pid_controller(float desiredSpeed, float realSpeed, float* integral, float* previousError) {
   float error = desiredSpeed - realSpeed;
   
   *integral += error;
-  *integral = constrain(*integral, -255/Ki, 255/Ki);  // Anti-windup
+  *integral = constrain(*integral, -255.0f/Ki, 255.0f/Ki);  // Anti-windup
   
   float derivative = error - *previousError;
   float output = Kp * error + Ki * (*integral) + Kd * derivative;
   
   *previousError = error;
   
-  return output;
+  return constrain(output, -255.0f, 255.0f);
 }
 
-// Your original functions with minimal changes
-void cmd_vel(double* V, double* W) {
+void cmd_vel(float* V, float* W) {
   while (Serial.available() < 1) delay(10);
   *V = Serial.parseFloat();
   
@@ -164,18 +162,18 @@ void cmd_vel(double* V, double* W) {
   Serial.println(*W);
 }
 
-void cmd_vel2wheels(double V, double W, double* wl, double* wr) {
-  *wl = (V - 0.5 * b * W) / r;
-  *wr = (V + 0.5 * b * W) / r;
+void cmd_vel2wheels(float V, float W, float* wl, float* wr) {
+  *wl = (V - 0.5f * b * W) / r;
+  *wr = (V + 0.5f * b * W) / r;
 }
 
-void poseUpdate1(int NL, int NR, int r, int b, int C, double* x, double* y, double* theta, double* V, double* W) {
-  double Dl = 2 * M_PI * r * NL / C;
-  double Dr = 2 * M_PI * r * NR / C;
+void poseUpdate1(int NL, int NR, float r, float b, int C, float* x, float* y, float* theta, float* V, float* W) {
+  float Dl = 2.0f * M_PI * r * NL / C;
+  float Dr = 2.0f * M_PI * r * NR / C;
   
   *theta = (Dr - Dl) / b;
-  *x = ((Dl + Dr) / 2) * cos(*theta);
-  *y = ((Dl + Dr) / 2) * sin(*theta);
-  *V = (Dr + Dl) / 2;
+  *x = ((Dl + Dr) / 2.0f) * cos(*theta);
+  *y = ((Dl + Dr) / 2.0f) * sin(*theta);
+  *V = (Dr + Dl) / 2.0f;
   *W = (Dr - Dl) / b;
 }
