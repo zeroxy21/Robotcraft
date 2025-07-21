@@ -54,7 +54,7 @@ void setup() {
 void loop() {
   // Handle velocity commands
   //if (Serial.available() > 0) {
-    float V=200, W=15;
+    float V=255, W=20;
     //cmd_vel(&V, &W);
     
     float wl, wr;
@@ -163,8 +163,16 @@ void cmd_vel(float* V, float* W) {
 }
 
 void cmd_vel2wheels(float V, float W, float* wl, float* wr) {
-  *wl = (V - 0.5f * b * W) / r;
-  *wr = (V + 0.5f * b * W) / r;
+  float base = V / r;
+  float delta = (b * W) / (2.0f * r);
+
+  // On ajoute un offset à une des roues, mais sans inverser le sens
+  *wl = base - delta;
+  *wr = base + delta;
+
+  // On s'assure que les deux sont positives (si V est trop petit, on les limite à min 0)
+  *wl = max(*wl, 0.0f);
+  *wr = max(*wr, 0.0f);
 }
 
 void poseUpdate1(int NL, int NR, float r, float b, int C, float* x, float* y, float* theta, float* V, float* W) {
