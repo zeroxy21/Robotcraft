@@ -1,0 +1,2 @@
+ydlidar
+-DCATKIN_DEVEL_PREFIX=/home/agheles/Robotcraft/ROS_ws/devel -DCMAKE_INSTALL_PREFIX=/home/agheles/Robotcraft/ROS_ws/install -G Unix Makefiles
