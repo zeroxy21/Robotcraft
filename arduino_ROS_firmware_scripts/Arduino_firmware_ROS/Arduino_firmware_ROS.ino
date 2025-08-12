@@ -133,10 +133,7 @@ void setup() {
   nh.initNode();
  // Timer1.initialize(100);         // 10Hz = 100 ms
   //Timer1.attachInterrupt(callback_encoders);  
-  digitalWrite(M1R_DIR ,LOW);
-  digitalWrite(M2L_DIR ,LOW);
-  digitalWrite(M1R_PWM,200);
-  digitalWrite(M2L_PWM,200);
+  
   
   // Publis
   nh.advertise(front_Ir);
@@ -151,12 +148,14 @@ void setup() {
 }
 
 void loop() {
+  front_Ir_msg.data=sensF();
+  right_Ir_msg.data=sensR();
+  left_Ir_msg.data=sensL();
  // === Publier ===
   front_Ir.publish(&front_Ir_msg);
   right_Ir.publish(&right_Ir_msg);
   left_Ir.publish(&left_Ir_msg);
   pose_pub.publish(&pose_msg);
   nh.spinOnce();
-  
 }
 

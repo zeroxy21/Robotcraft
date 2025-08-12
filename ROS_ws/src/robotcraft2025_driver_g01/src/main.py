@@ -52,7 +52,7 @@ def pose_callback(msg):
 def make_range_msg(value, frame_id):
     msg = Range()
     msg.header.stamp = rospy.Time.now()
-    msg.header.frame_id = frame_id + "_sonar"
+    msg.header.frame_id = frame_id 
     msg.radiation_type = RADIATION_TYPE
     msg.field_of_view = FOV
     msg.min_range = MIN_RANGE

@@ -55,6 +55,7 @@ CMAKE_BINARY_DIR = /home/agheles/Robotcraft/ROS_ws/build
 # The main recursive "all" target.
 all: gtest/all
 all: robotcraft2025_driver_g01/all
+all: robotcraft_robot_description/all
 all: ydlidar/all
 
 .PHONY : all
@@ -62,6 +63,7 @@ all: ydlidar/all
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: robotcraft2025_driver_g01/preinstall
+preinstall: robotcraft_robot_description/preinstall
 preinstall: ydlidar/preinstall
 
 .PHONY : preinstall
@@ -74,6 +76,7 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: robotcraft2025_driver_g01/clean
+clean: robotcraft_robot_description/clean
 clean: ydlidar/clean
 
 .PHONY : clean
@@ -206,6 +209,24 @@ robotcraft2025_driver_g01/clean: robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_g
 robotcraft2025_driver_g01/clean: robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean
 
 .PHONY : robotcraft2025_driver_g01/clean
+
+#=============================================================================
+# Directory level rules for directory robotcraft_robot_description
+
+# Recursive "all" directory target.
+robotcraft_robot_description/all: robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/all
+
+.PHONY : robotcraft_robot_description/all
+
+# Recursive "preinstall" directory target.
+robotcraft_robot_description/preinstall:
+
+.PHONY : robotcraft_robot_description/preinstall
+
+# Recursive "clean" directory target.
+robotcraft_robot_description/clean: robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/clean
+
+.PHONY : robotcraft_robot_description/clean
 
 #=============================================================================
 # Directory level rules for directory ydlidar
@@ -1955,6 +1976,33 @@ tf2_msgs_generate_messages_nodejs: robotcraft2025_driver_g01/CMakeFiles/tf2_msgs
 robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean:
 	$(MAKE) -f robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean
 .PHONY : robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir
+
+# All Build rule for target.
+robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/all:
+	$(MAKE) -f robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build.make robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/depend
+	$(MAKE) -f robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build.make robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/agheles/Robotcraft/ROS_ws/build/CMakeFiles --progress-num= "Built target robotcraft_robot_description_xacro_generated_to_devel_space_"
+.PHONY : robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/all
+
+# Build rule for subdir invocation for target.
+robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/agheles/Robotcraft/ROS_ws/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/agheles/Robotcraft/ROS_ws/build/CMakeFiles 0
+.PHONY : robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/rule
+
+# Convenience name for target.
+robotcraft_robot_description_xacro_generated_to_devel_space_: robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/rule
+
+.PHONY : robotcraft_robot_description_xacro_generated_to_devel_space_
+
+# clean rule for target.
+robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/clean:
+	$(MAKE) -f robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build.make robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/clean
+.PHONY : robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/clean
 
 #=============================================================================
 # Target rules for target ydlidar/CMakeFiles/ydlidar_client.dir

@@ -1000,6 +1000,19 @@ tf2_msgs_generate_messages_nodejs/fast:
 .PHONY : tf2_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named robotcraft_robot_description_xacro_generated_to_devel_space_
+
+# Build rule for target.
+robotcraft_robot_description_xacro_generated_to_devel_space_: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 robotcraft_robot_description_xacro_generated_to_devel_space_
+.PHONY : robotcraft_robot_description_xacro_generated_to_devel_space_
+
+# fast build rule for target.
+robotcraft_robot_description_xacro_generated_to_devel_space_/fast:
+	$(MAKE) -f robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build.make robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir/build
+.PHONY : robotcraft_robot_description_xacro_generated_to_devel_space_/fast
+
+#=============================================================================
 # Target rules for targets named ydlidar_client
 
 # Build rule for target.
@@ -1102,6 +1115,7 @@ help:
 	@echo "... actionlib_generate_messages_nodejs"
 	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... tf2_msgs_generate_messages_nodejs"
+	@echo "... robotcraft_robot_description_xacro_generated_to_devel_space_"
 	@echo "... ydlidar_client"
 	@echo "... ydlidar_node"
 .PHONY : help

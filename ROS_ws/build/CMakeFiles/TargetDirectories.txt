@@ -97,6 +97,14 @@
 /home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_lisp.dir
 /home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g01/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir
 /home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g01/CMakeFiles/list_install_components.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/install/local.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/install.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/list_install_components.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/rebuild_cache.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/edit_cache.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/test.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/install/strip.dir
+/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description/CMakeFiles/robotcraft_robot_description_xacro_generated_to_devel_space_.dir
 /home/agheles/Robotcraft/ROS_ws/build/ydlidar/CMakeFiles/install/strip.dir
 /home/agheles/Robotcraft/ROS_ws/build/ydlidar/CMakeFiles/install/local.dir
 /home/agheles/Robotcraft/ROS_ws/build/ydlidar/CMakeFiles/install.dir
