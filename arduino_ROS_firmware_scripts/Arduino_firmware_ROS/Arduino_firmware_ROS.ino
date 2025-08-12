@@ -56,7 +56,7 @@ float sensF(){
     }
     float res=sum/1000.0;
     res=49.7-0.134*res+0.000104*res*res;
-    Serial.println(res);
+    
    return res;
 }
 float sensL(){
@@ -67,7 +67,7 @@ float sensL(){
     }
     float res=sum/1000.0;
     res=46.9-0.132*res+0.000106*res*res;
-    Serial.println(res);
+    
    return res;
 }
 float sensR(){
@@ -78,7 +78,7 @@ float sensR(){
     }
     float res=sum/1000.0;
     res=51.9-0.144*res+0.000114*res*res;
-    Serial.println(res);
+    
    return res;
 }
 
@@ -131,8 +131,8 @@ ros::Subscriber<std_msgs::UInt8MultiArray> set_pose_sub("/set_pose", &callback_s
 
 void setup() {
   nh.initNode();
-  Timer1.initialize(100);         // 10Hz = 100 ms
-  Timer1.attachInterrupt(callback_encoders);  
+ // Timer1.initialize(100);         // 10Hz = 100 ms
+  //Timer1.attachInterrupt(callback_encoders);  
   digitalWrite(M1R_DIR ,LOW);
   digitalWrite(M2L_DIR ,LOW);
   digitalWrite(M1R_PWM,200);
@@ -151,23 +151,12 @@ void setup() {
 }
 
 void loop() {
-  front_Ir_msg.data=
-   if (flag) {
-   
-    flag = false;
-  }
-   
-  if(DL>=10.0 ){
-    digitalWrite(M1R_PWM,0);
-    digitalWrite(M2L_PWM,0);
-  }
-  
  // === Publier ===
   front_Ir.publish(&front_Ir_msg);
   right_Ir.publish(&right_Ir_msg);
   left_Ir.publish(&left_Ir_msg);
   pose_pub.publish(&pose_msg);
   nh.spinOnce();
-  delay(100); // éviter la surcharge de la liaison série
+  
 }
 

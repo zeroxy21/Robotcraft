@@ -2,7 +2,16 @@
 import rospy
 from geometry_msgs.msg import Pose2D, TransformStamped
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Float32
+from sensor_msgs.msg import Range
 import tf2_ros
+from tf.transformations import quaternion_from_euler
+
+# === Constants for IR range messages ===
+FOV = 0.034906585  # 2 degrees in radians
+MIN_RANGE = 0.1
+MAX_RANGE = 0.8
+RADIATION_TYPE = Range.INFRARED  # = 1
 
 def pose_callback(msg):
     # Create and publish Odometry
@@ -16,8 +25,6 @@ def pose_callback(msg):
     odom_msg.pose.pose.position.z = 0.0
 
     # Convert theta (yaw) to quaternion
-    import math
-    from tf.transformations import quaternion_from_euler
     q = quaternion_from_euler(0, 0, msg.theta)
     odom_msg.pose.pose.orientation.x = q[0]
     odom_msg.pose.pose.orientation.y = q[1]
@@ -41,8 +48,29 @@ def pose_callback(msg):
 
     tf_broadcaster.sendTransform(t)
 
+# === IR Republish Callbacks ===
+def make_range_msg(value, frame_id):
+    msg = Range()
+    msg.header.stamp = rospy.Time.now()
+    msg.header.frame_id = frame_id + "_sonar"
+    msg.radiation_type = RADIATION_TYPE
+    msg.field_of_view = FOV
+    msg.min_range = MIN_RANGE
+    msg.max_range = MAX_RANGE
+    msg.range = value
+    return msg
+
+def front_cb(msg):
+    ir_front_pub.publish(make_range_msg(msg.data, "front_ir"))
+
+def right_cb(msg):
+    ir_right_pub.publish(make_range_msg(msg.data, "right_ir"))
+
+def left_cb(msg):
+    ir_left_pub.publish(make_range_msg(msg.data, "left_ir"))
+
 if __name__ == "__main__":
-    rospy.init_node("pose_to_odom")
+    rospy.init_node("pose_and_ir_node")
 
     # Publisher for Odometry
     odom_pub = rospy.Publisher("/odom", Odometry, queue_size=10)
@@ -50,8 +78,16 @@ if __name__ == "__main__":
     # TF broadcaster
     tf_broadcaster = tf2_ros.TransformBroadcaster()
 
-    # Subscriber to /pose
-    rospy.Subscriber("/pose", Pose2D, pose_callback)
+    # Publishers for IR sensors
+    ir_front_pub = rospy.Publisher("/ir_front_sensor", Range, queue_size=10)
+    ir_right_pub = rospy.Publisher("/ir_right_sensor", Range, queue_size=10)
+    ir_left_pub = rospy.Publisher("/ir_left_sensor", Range, queue_size=10)
 
-    rospy.loginfo("pose_to_odom node started, listening to /pose...")
+    # Subscribers
+    rospy.Subscriber("/pose", Pose2D, pose_callback)
+    rospy.Subscriber("/front_distance", Float32, front_cb)
+    rospy.Subscriber("/right_distance", Float32, right_cb)
+    rospy.Subscriber("/left_distance", Float32, left_cb)
+
+    rospy.loginfo("pose_and_ir_node started, listening to /pose and distance topics...")
     rospy.spin()
