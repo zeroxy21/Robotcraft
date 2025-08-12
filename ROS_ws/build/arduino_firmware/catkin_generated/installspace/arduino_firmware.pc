@@ -1,0 +1,8 @@
+prefix=/home/agheles/Robotcraft/ROS_ws/install
+
+Name: arduino_firmware
+Description: Description of arduino_firmware
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

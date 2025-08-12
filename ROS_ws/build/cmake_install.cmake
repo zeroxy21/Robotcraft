@@ -146,6 +146,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/agheles/Robotcraft/ROS_ws/build/gtest/cmake_install.cmake")
+  include("/home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g01/cmake_install.cmake")
   include("/home/agheles/Robotcraft/ROS_ws/build/ydlidar/cmake_install.cmake")
 
 endif()
