@@ -100,20 +100,7 @@ void loop() {
     digitalWrite(M1R_DIR, (rightOutput < 0) ? HIGH : LOW);
     analogWrite(M1R_PWM, constrain(abs(rightOutput), 0, 255));
     
-    // Debug output
-    // POUR VOIR L4ERREUR persistante 
-    Serial.print("ErrL:"); Serial.print(targetLeft - leftSpeed);
-    Serial.print(" ErrR:"); Serial.println(targetRight - rightSpeed);
-    //Serial.print("Pos:(");
-    //Serial.print(x);
-   // Serial.print(",");
-    //Serial.print(y);
-    //Serial.print(") Theta:");
-    //Serial.print(theta);
-    //Serial.print(" L:");
-    //Serial.print(leftSpeed);
-   // Serial.print(" R:");
-    //Serial.println(rightSpeed);
+   
   }
 }
 
