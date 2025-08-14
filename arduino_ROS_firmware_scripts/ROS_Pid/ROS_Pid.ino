@@ -40,7 +40,7 @@ float x = 0.0, y = 0.0, theta = 0.0;
 
 // --- Variables PID ---
 float targetLeft = 0.0, targetRight = 0.0;
-float Kp = 6.8755, Ki = 5.5004, Kd = 1.4921;
+float Kp = 6.18, Ki = 4.94, Kd = 1.34;
 float integralLeft = 0.0, integralRight = 0.0;
 float prevErrorLeft = 0.0, prevErrorRight = 0.0;
 long lastPIDTime = 0;
@@ -61,6 +61,28 @@ ros::Publisher front_Ir("/front_distance", &front_Ir_msg);
 ros::Publisher right_Ir("/right_distance", &right_Ir_msg);
 ros::Publisher left_Ir("/left_distance", &left_Ir_msg);
 ros::Publisher pose_pub("/pose", &pose_msg);
+
+// === Fonctions capteurs IR ===
+float sensF() {
+    float sum = 0.0;
+    for (int i = 0; i < 1000; i++) sum += analogRead(IR_FRONT);
+    float res = sum / 1000.0;
+    return (49.7 - 0.134 * res + 0.000104 * res * res) / 100.0;
+}
+
+float sensL() {
+    float sum = 0.0;
+    for (int i = 0; i < 1000; i++) sum += analogRead(IR_LEFT);
+    float res = sum / 1000.0;
+    return (46.9 - 0.132 * res + 0.000106 * res * res) / 100.0;
+}
+
+float sensR() {
+    float sum = 0.0;
+    for (int i = 0; i < 1000; i++) sum += analogRead(IR_RIGHT);
+    float res = sum / 1000.0;
+    return (51.9 - 0.144 * res + 0.000114 * res * res) / 100.0;
+}
 
 // --- Odométrie ---
 void callback_encoders() {
@@ -86,8 +108,8 @@ void callback_encoders() {
     if (theta > M_PI)  theta -= 2.0 * M_PI;
     if (theta < -M_PI) theta += 2.0 * M_PI;
 
-    pose_msg.x = x;
-    pose_msg.y = y;
+    pose_msg.x = x*pow(10,-3);
+    pose_msg.y = y*pow(10,-3);
     pose_msg.theta = theta;
 
     flag = true;
@@ -95,14 +117,20 @@ void callback_encoders() {
 
 // --- PID ---
 float pid_controller(float desired, float real, float *integral, float *prevErr) {
-    float error = desired - real;
+    float error = desired - real; // NE PAS inverser
+
     *integral += error;
-    *integral = constrain(*integral, -255.0/Ki, 255.0/Ki);
+    *integral = constrain(*integral, -255.0 / Ki, 255.0 / Ki);
+
     float derivative = error - *prevErr;
-    float output = Kp*error + Ki*(*integral) + Kd*derivative;
+    float output = Kp * error + Ki * (*integral) + Kd * derivative;
+
     *prevErr = error;
+
     return constrain(output, -255.0, 255.0);
 }
+
+
 
 // --- Conversion cmd_vel → vitesses roues ---
 void cmd_vel2wheels(float V, float W, float* wl, float* wr) {
@@ -165,11 +193,11 @@ void loop() {
             float leftOut = pid_controller(targetLeft, leftSpeed, &integralLeft, &prevErrorLeft);
             float rightOut = pid_controller(targetRight, rightSpeed, &integralRight, &prevErrorRight);
 
-            // --- Inversion sens roue pour avancer correctement ---
-            digitalWrite(M2L_DIR, (leftOut < 0) ? LOW : HIGH);
+            // --- LOGIQUE CORRECTE: HIGH = recule, LOW = avance ---
+            digitalWrite(M2L_DIR, (leftOut > 0) ?  LOW : HIGH);
             analogWrite(M2L_PWM, constrain(abs(leftOut), 0, 255));
 
-            digitalWrite(M1R_DIR, (rightOut < 0) ? LOW : HIGH);
+            digitalWrite(M1R_DIR, (rightOut > 0) ? LOW : HIGH);
             analogWrite(M1R_PWM, constrain(abs(rightOut), 0, 255));
         } else {
             analogWrite(M1R_PWM, 0);
@@ -178,8 +206,17 @@ void loop() {
     }
 
     // --- Publication ROS tous les 100 ms ---
-    if (now - last_pub_time >= 100) {
+    if (now - last_pub_time >= 100) {  // 100 ms = 10 Hz
         last_pub_time = now;
+
+        front_Ir_msg.data = sensF();
+        right_Ir_msg.data = sensR();
+        left_Ir_msg.data  = sensL();
+
+        front_Ir.publish(&front_Ir_msg);
+        right_Ir.publish(&right_Ir_msg);
+        left_Ir.publish(&left_Ir_msg);
+
         if (flag) {
             pose_pub.publish(&pose_msg);
             flag = false;
@@ -188,4 +225,5 @@ void loop() {
 
     nh.spinOnce();
 }
+
 
