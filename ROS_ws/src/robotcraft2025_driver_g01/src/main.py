@@ -69,6 +69,11 @@ def right_cb(msg):
 def left_cb(msg):
     ir_left_pub.publish(make_range_msg(msg.data, "left_ir"))
 
+
+
+
+
+
 if __name__ == "__main__":
     rospy.init_node("pose_and_ir_node")
 

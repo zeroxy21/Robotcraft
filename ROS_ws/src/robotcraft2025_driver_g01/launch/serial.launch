@@ -4,5 +4,6 @@
     <param name="port" value="/dev/ttyACM0"/>
     <param name="baud" value="57600"/>
   </node>
-  <node pkg="robotcraft2025_driver_g01" type="main.py" name="talker_node" output="screen"/>
+  <node pkg="robotcraft2025_driver_g01" type="main.py" name="pose_and_ir_node" output="screen"/>
+  <node pkg="robotcraft2025_driver_g01" type="square_test.py" name="square_controller_v4" output="screen"/>
 </launch>
