@@ -5,5 +5,5 @@
     <param name="baud" value="57600"/>
   </node>
   <node pkg="robotcraft2025_driver_g04" type="main.py" name="pose_and_ir_node" output="screen"/>
-  <node pkg="robotcraft2025_driver_g04" type="maze_BasicSolver.py" name="Basic_solver_node" output="screen"/>
+  
 </launch>
