@@ -1,5 +1,0 @@
-<launch>
-    <include file="$(find robotcraft_robot_description)/launch/display_robotcraft.launch"/>
-    <include file="$(find robotcraft2025_driver_g01)/launch/serial.launch"/>
-</launch>
-

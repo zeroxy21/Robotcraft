@@ -1,0 +1,8 @@
+prefix=/home/agheles/Robotcraft/ROS_ws/devel
+
+Name: robotcraft_maze
+Description: Description of robotcraft_maze
+Version: 0.3.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

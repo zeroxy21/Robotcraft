@@ -1,0 +1,8 @@
+prefix=/home/agheles/Robotcraft/ROS_ws/devel
+
+Name: robotcraft2025_driver_g04
+Description: Description of robotcraft2025_driver_g04
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

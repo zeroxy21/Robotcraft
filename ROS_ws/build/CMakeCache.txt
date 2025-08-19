@@ -501,10 +501,22 @@ nav_msgs_DIR:PATH=/opt/ros/noetic/share/nav_msgs/cmake
 pluginlib_DIR:PATH=/opt/ros/noetic/share/pluginlib/cmake
 
 //Value Computed by CMake
-robotcraft2025_driver_g01_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g01
+robotcraft2025_driver_g01_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g04
 
 //Value Computed by CMake
-robotcraft2025_driver_g01_SOURCE_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/src/robotcraft2025_driver_g01
+robotcraft2025_driver_g01_SOURCE_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/src/robotcraft2025_driver_g04
+
+//Value Computed by CMake
+robotcraft2025_driver_g04_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g04
+
+//Value Computed by CMake
+robotcraft2025_driver_g04_SOURCE_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/src/robotcraft2025_driver_g04
+
+//Value Computed by CMake
+robotcraft_maze_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft_maze
+
+//Value Computed by CMake
+robotcraft_maze_SOURCE_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/src/robotcraft_maze
 
 //Value Computed by CMake
 robotcraft_robot_description_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft_robot_description
@@ -553,6 +565,9 @@ rostime_DIR:PATH=/opt/ros/noetic/share/rostime/cmake
 
 //The directory containing a CMake configuration file for sensor_msgs.
 sensor_msgs_DIR:PATH=/opt/ros/noetic/share/sensor_msgs/cmake
+
+//The directory containing a CMake configuration file for stage_ros.
+stage_ros_DIR:PATH=/opt/ros/noetic/share/stage_ros/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/noetic/share/std_msgs/cmake
@@ -735,7 +750,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
