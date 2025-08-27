@@ -504,6 +504,12 @@ nav_msgs_DIR:PATH=/opt/ros/noetic/share/nav_msgs/cmake
 pluginlib_DIR:PATH=/opt/ros/noetic/share/pluginlib/cmake
 
 //Value Computed by CMake
+robot_maze_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robot_maze
+
+//Value Computed by CMake
+robot_maze_SOURCE_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/src/robot_maze
+
+//Value Computed by CMake
 robotcraft2025_driver_g01_BINARY_DIR:STATIC=/home/agheles/Robotcraft/ROS_ws/build/robotcraft2025_driver_g04
 
 //Value Computed by CMake
@@ -753,7 +759,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
