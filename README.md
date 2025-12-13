@@ -2,6 +2,8 @@
 # 🤖 Autonomous Mobile Robot with LiDAR, Arduino & Raspberry Pi 4 (ROS)
 
 This repository documents the design and implementation of an **autonomous mobile robot** integrating a 2D **LiDAR sensor**, an **Arduino** microcontroller for low-level control, and a **Raspberry Pi 4** running **ROS** (Robot Operating System) for high-level processing and autonomous navigation.
+![WhatsApp Image 2025-12-13 at 16 54 57](https://github.com/user-attachments/assets/b6be09f5-387a-4c1b-9971-9da9ac684edf)
+![WhatsApp Image 2025-12-13 at 16 57 34](https://github.com/user-attachments/assets/c47ef7c8-97bf-48a9-a2b1-e86d9781deff)
 
 ## 🔧 Hardware Architecture
 
