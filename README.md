@@ -44,33 +44,6 @@ This repository documents the design and implementation of an **autonomous mobil
   - Example: `M100,-100\n` → sets left/right motor speeds
   - Response: `ENC,1234,1200\n` → returns encoder tick counts
 
-## 📁 Project Structure
-
-robot-project/
-├── arduino/
-│ └── motor_controller.ino
-├── ros_ws/
-│ ├── src/
-│ │ ├── lidar_publisher/
-│ │ ├── encoder_reader/
-│ │ └── motor_command_sender/
-│ └── launch/
-│ └── bringup.launch
-├── docs/
-│ └── system_architecture.png
-└── README.md
-
-
-## 🖼️ System Overview
-
-![System Overview](docs/system_architecture.png)
-
-## 🚧 Planned Features
-
-- Integration of ultrasonic or infrared sensors
-- Full autonomous navigation in indoor/outdoor environments
-- Obstacle avoidance and/or line following
-- Optional camera + OpenCV integration
 
 ## 📚 Dependencies
 
